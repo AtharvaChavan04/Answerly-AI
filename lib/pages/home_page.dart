@@ -1,10 +1,22 @@
+import 'package:answerly_ai/services/chat_web_service.dart';
 import 'package:answerly_ai/theme/colors.dart';
 import 'package:answerly_ai/widgets/search_section.dart';
 import 'package:answerly_ai/widgets/side_navbar.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    ChatWebService().connect();
+  }
 
   @override
   Widget build(BuildContext context) {

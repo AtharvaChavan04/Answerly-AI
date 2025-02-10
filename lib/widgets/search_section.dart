@@ -1,10 +1,24 @@
+import 'package:answerly_ai/services/chat_web_service.dart';
 import 'package:answerly_ai/theme/colors.dart';
 import 'package:answerly_ai/widgets/search_bar_button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SearchSection extends StatelessWidget {
+class SearchSection extends StatefulWidget {
   const SearchSection({super.key});
+
+  @override
+  State<SearchSection> createState() => _SearchSectionState();
+}
+
+class _SearchSectionState extends State<SearchSection> {
+  final queryController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    queryController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +50,7 @@ class SearchSection extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: TextField(
+                  controller: queryController,
                   decoration: InputDecoration(
                     hintText: "Search anything...",
                     hintStyle: TextStyle(
@@ -62,16 +77,21 @@ class SearchSection extends StatelessWidget {
                       text: "Attach",
                     ),
                     const Spacer(),
-                    Container(
-                      padding: EdgeInsets.all(9),
-                      decoration: BoxDecoration(
-                        color: AppColors.submitButton,
-                        borderRadius: BorderRadius.circular(40),
-                      ),
-                      child: const Icon(
-                        Icons.arrow_forward,
-                        color: AppColors.background,
-                        size: 16,
+                    GestureDetector(
+                      onTap: () {
+                        ChatWebService().chat(queryController.text.trim());
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(9),
+                        decoration: BoxDecoration(
+                          color: AppColors.submitButton,
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        child: const Icon(
+                          Icons.arrow_forward,
+                          color: AppColors.background,
+                          size: 16,
+                        ),
                       ),
                     ),
                   ],
