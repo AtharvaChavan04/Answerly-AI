@@ -12,6 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String fullResponse = "";
   @override
   void initState() {
     super.initState();
@@ -30,6 +31,7 @@ class _HomePageState extends State<HomePage> {
                 const Expanded(
                   child: SearchSection(),
                 ),
+
                 //Footer
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 16),

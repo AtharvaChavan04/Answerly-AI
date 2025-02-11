@@ -1,4 +1,4 @@
-import 'package:answerly_ai/pages/home_page.dart';
+import 'package:answerly_ai/pages/chat_page.dart';
 import 'package:answerly_ai/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,7 +22,9 @@ class MyApp extends StatelessWidget {
           ThemeData.dark().textTheme,
         ),
       ),
-      home: const HomePage(),
+      home: const ChatPage(
+        question: 'What is India vs England Score?',
+      ),
     );
   }
 }

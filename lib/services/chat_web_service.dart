@@ -21,7 +21,11 @@ class ChatWebService {
 
     _socket!.messages.listen((messsage) {
       final data = json.decode(messsage);
-      print(data['type']);
+      if (data['type'] == 'search_results') {
+        _searchResultController.add(data);
+      } else if (data['type'] == 'content') {
+        _contentController.add(data);
+      }
     });
   }
 
