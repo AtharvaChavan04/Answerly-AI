@@ -1,5 +1,7 @@
+import 'package:answerly_ai/services/chat_web_service.dart';
 import 'package:answerly_ai/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class SourcesSection extends StatefulWidget {
   const SourcesSection({super.key});
@@ -9,23 +11,38 @@ class SourcesSection extends StatefulWidget {
 }
 
 class _SourcesSectionState extends State<SourcesSection> {
-  List<Map<String, dynamic>> searchResults = [
+  bool isLoading = true;
+
+  List searchResults = [
     {
-      "title": "Australia vs India, 4th Test - Live Cricket Score",
+      "title":
+          "Rohit Sharma hits century as India surge to ODI series victory over England",
       "url":
-          "https://www.cricbuzz.com/live-cricket-scores/91805/aus-vs-ind-4th-test-india-tour-of-australia-2024-25"
+          "https://www.theguardian.com/sport/2025/feb/09/rohit-sharma-hits-century-as-india-surge-to-odi-series-victory-over-england"
     },
     {
-      "title": "Australia vs India, 4th Test - Live Cricket Score",
+      "title": "Rohit hundred flattens England, India clinch ODI series",
       "url":
-          "https://www.espncricinfo.com/series/australia-vs-india-2024-25-1426547/australia-vs-india-4th-test-1426558/live-cricket-score"
+          "https://www.reuters.com/sports/cricket/rohit-hundred-flattens-england-india-clinch-odi-series-2025-02-09/"
     },
     {
-      "title": "India vs Australia highlights, 4th Test Day 5",
+      "title":
+          "Ben Duckett would accept 3-0 series defeat if England beat India in Champions Trophy final",
       "url":
-          "https://timesofindia.indiatimes.com/sports/cricket/india-vs-australia-live-score-4th-test-day-5-border-gavaskar-trophy-2024-ind-vs-aus-boxing-day-test-live-streaming-online/liveblog/116777549.cms"
-    }
+          "https://www.theguardian.com/sport/2025/feb/10/cricket-ben-duckett-accept-series-defeat-england-beat-india-champions-trophy-final"
+    },
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    ChatWebService().searchResultStream.listen((data) {
+      setState(() {
+        searchResults = data['data'];
+        isLoading = false;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,41 +66,44 @@ class _SourcesSectionState extends State<SourcesSection> {
           ],
         ),
         SizedBox(height: 16),
-        Wrap(
-          spacing: 16,
-          runSpacing: 16,
-          children: searchResults.map((res) {
-            return Container(
-              padding: EdgeInsets.all(16),
-              width: 150,
-              decoration: BoxDecoration(
-                color: AppColors.cardColor,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Column(
-                children: [
-                  Text(
-                    res['title'],
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
+        Skeletonizer(
+          enabled: isLoading,
+          child: Wrap(
+            spacing: 16,
+            runSpacing: 16,
+            children: searchResults.map((res) {
+              return Container(
+                padding: EdgeInsets.all(16),
+                width: 150,
+                decoration: BoxDecoration(
+                  color: AppColors.cardColor,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      res['title'],
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    res['title'],
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
+                    const SizedBox(height: 8),
+                    Text(
+                      res['title'],
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 12,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            );
-          }).toList(),
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
         ),
       ],
     );

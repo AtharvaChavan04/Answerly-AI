@@ -1,4 +1,4 @@
-import 'package:answerly_ai/pages/chat_page.dart';
+import 'package:answerly_ai/pages/home_page.dart';
 import 'package:answerly_ai/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,12 +19,15 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: AppColors.background,
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.submitButton),
         textTheme: GoogleFonts.interTextTheme(
-          ThemeData.dark().textTheme,
+          ThemeData.dark().textTheme.copyWith(
+                bodyMedium: const TextStyle(
+                  fontSize: 16,
+                  color: AppColors.whiteColor,
+                ),
+              ),
         ),
       ),
-      home: const ChatPage(
-        question: 'What is India vs England Score?',
-      ),
+      home: const HomePage(),
     );
   }
 }

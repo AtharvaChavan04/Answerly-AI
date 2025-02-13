@@ -1,3 +1,4 @@
+import 'package:answerly_ai/pages/chat_page.dart';
 import 'package:answerly_ai/services/chat_web_service.dart';
 import 'package:answerly_ai/theme/colors.dart';
 import 'package:answerly_ai/widgets/search_bar_button.dart';
@@ -80,6 +81,13 @@ class _SearchSectionState extends State<SearchSection> {
                     GestureDetector(
                       onTap: () {
                         ChatWebService().chat(queryController.text.trim());
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => ChatPage(
+                              question: queryController.text.trim(),
+                            ),
+                          ),
+                        );
                       },
                       child: Container(
                         padding: EdgeInsets.all(9),
